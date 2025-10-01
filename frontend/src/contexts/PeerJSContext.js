@@ -14,10 +14,19 @@ const createSocketConnection = () => {
     localStorage.setItem('authToken', token);
   }
   
-  return io(process.env.REACT_APP_SERVER_URL || 'http://localhost:4001', {
+  // Use current domain in production, localhost in development
+  const serverUrl = process.env.NODE_ENV === 'production' 
+    ? window.location.origin 
+    : (process.env.REACT_APP_SERVER_URL || 'http://localhost:4001');
+  
+  console.log('🔗 Connecting to server:', serverUrl);
+  
+  return io(serverUrl, {
     transports: ['websocket', 'polling'],
     timeout: 20000,
-    forceNew: true
+    forceNew: true,
+    upgrade: true,
+    rememberUpgrade: true
   });
 };
 
@@ -216,9 +225,6 @@ export const PeerJSProvider = ({ children }) => {
       console.log('🔗 Initializing PeerJS with ID:', me);
       
       const peer = new Peer(me, {
-        host: 'localhost',
-        port: 9000,
-        path: '/myapp',
         config: {
           iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
@@ -246,10 +252,7 @@ export const PeerJSProvider = ({ children }) => {
           rtcpMuxPolicy: 'require'
         },
         debug: 0,
-        secure: false,
-        timeout: 30000,
-        key: 'peerjs',
-        allow_discovery: true
+        timeout: 30000
       });
 
       peer.on('open', (id) => {
@@ -788,11 +791,6 @@ export const PeerJSProvider = ({ children }) => {
     
     // Recreate peer with new ID
     const newPeer = new Peer(null, {
-      host: 'localhost',
-      port: 9000,
-      path: '/myapp',
-      secure: false,
-      debug: 0,
       config: {
         iceServers: [
           { urls: 'stun:stun.l.google.com:19302' },
@@ -807,19 +805,18 @@ export const PeerJSProvider = ({ children }) => {
           { urls: 'stun:stun.voiparound.com' },
           { urls: 'stun:stun.voipbuster.com' },
           { urls: 'stun:stun.voipstunt.com' },
-          { urls: 'stun:stun.voxgratia.org' },
-          { urls: 'stun:stun.xten.com' },
+          { urls: 'stun:stun.counterpath.com' },
           { urls: 'stun:stun.1und1.de' },
           { urls: 'stun:stun.gmx.net' },
-          { urls: 'stun:stun.callwithus.com' },
-          { urls: 'stun:stun.counterpath.com' },
-          { urls: 'stun:stun.1und1.de' }
-        ]
+          { urls: 'stun:stun.callwithus.com' }
+        ],
+        iceCandidatePoolSize: 20,
+        iceTransportPolicy: 'all',
+        bundlePolicy: 'max-bundle',
+        rtcpMuxPolicy: 'require'
       },
-      iceCandidatePoolSize: 20,
-      iceTransportPolicy: 'all',
-      bundlePolicy: 'max-bundle',
-      rtcpMuxPolicy: 'require'
+      debug: 0,
+      timeout: 30000
     });
     
     newPeer.on('open', (id) => {

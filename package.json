@@ -4,7 +4,7 @@
     "description": "Secure Video Chat Application with End-to-End Encryption",
     "main": "backend/server.js",
     "scripts": {
-        "start": "node backend/server.js",
+        "start": "NODE_ENV=production node backend/server.js",
         "build": "cd frontend && npm install && npm run build && cd ..",
         "postinstall": "npm run build",
         "dev:backend": "cd backend && npm run dev",

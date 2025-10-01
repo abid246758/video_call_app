@@ -64,3 +64,28 @@ npm run dev
 - **Backend**: Node.js, Express, Socket.io
 - **WebRTC**: PeerJS, Simple-peer
 - **Security**: Helmet, CORS, Rate limiting
+
+## Troubleshooting
+
+### Common Deployment Issues
+
+1. **WebSocket Connection Errors**
+   - The app automatically detects production environment and connects to the deployed URL
+   - No manual configuration needed for Render deployment
+
+2. **Camera/Microphone Access**
+   - Requires HTTPS in production (Render provides this automatically)
+   - Users must grant permissions when prompted
+
+3. **PeerJS Connection Issues**
+   - Uses public STUN servers for WebRTC connections
+   - Should work across different networks and NAT configurations
+
+4. **Build Errors**
+   - Ensure all dependencies are properly installed
+   - Frontend builds automatically during deployment
+
+### Environment Variables
+- `NODE_ENV=production` - Automatically set by Render
+- `PORT` - Automatically provided by Render
+- No additional configuration required

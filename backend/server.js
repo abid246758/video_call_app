@@ -39,7 +39,7 @@ app.use(limiter);
 // CORS configuration - optimized for mobile
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://yourdomain.com', 'https://www.yourdomain.com']
+    ? true // Allow all origins in production for Render deployment
     : ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -57,7 +57,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production'
-      ? ['https://yourdomain.com', 'https://www.yourdomain.com']
+      ? true // Allow all origins in production for Render deployment
       : ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000'],
     methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true
@@ -370,7 +370,20 @@ app.get('/api/rooms', (req, res) => {
   });
 });
 
-// Mobile app manifest endpoint
+// Simple icon endpoints to prevent 404 errors
+app.get('/icon-192.png', (req, res) => {
+  res.status(204).send(); // No content
+});
+
+app.get('/icon-512.png', (req, res) => {
+  res.status(204).send(); // No content
+});
+
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).send(); // No content
+});
+
+// Mobile app manifest endpoint (without icons to prevent errors)
 app.get('/manifest.json', (req, res) => {
   res.json({
     name: "VideoCall Mobile",
@@ -379,19 +392,7 @@ app.get('/manifest.json', (req, res) => {
     start_url: "/",
     display: "standalone",
     background_color: "#0f172a",
-    theme_color: "#6366f1",
-    icons: [
-      {
-        src: "/icon-192.png",
-        sizes: "192x192",
-        type: "image/png"
-      },
-      {
-        src: "/icon-512.png",
-        sizes: "512x512",
-        type: "image/png"
-      }
-    ]
+    theme_color: "#6366f1"
   });
 });
 
