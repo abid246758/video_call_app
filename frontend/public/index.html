@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="description" content="Simple video calling with room codes - mobile optimized" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="VideoCall" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="VideoCall" />
+    
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="%PUBLIC_URL%/icon-512.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>VideoCall - Simple Video Calling</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script>
+      // Comprehensive polyfills for Node.js compatibility
+      if (typeof process === 'undefined') {
+        window.process = { 
+          env: {},
+          nextTick: function(callback) {
+            setTimeout(callback, 0);
+          },
+          browser: true,
+          version: '',
+          versions: {}
+        };
+      }
+      
+      // Polyfill for Buffer
+      if (typeof Buffer === 'undefined') {
+        window.Buffer = {
+          isBuffer: function() { return false; },
+          from: function(data) { return new Uint8Array(data); },
+          alloc: function(size) { return new Uint8Array(size); }
+        };
+      }
+      
+      // Polyfill for stream
+      if (typeof window.stream === 'undefined') {
+        window.stream = {
+          Readable: function() {
+            this._readableState = {
+              objectMode: false,
+              highWaterMark: 16384,
+              buffer: [],
+              length: 0,
+              pipes: null,
+              pipesCount: 0,
+              flowing: null,
+              ended: false,
+              endEmitted: false,
+              reading: false,
+              sync: true,
+              needReadable: false,
+              emittedReadable: false,
+              readableListening: false,
+              resumeScheduled: false,
+              destroyed: false,
+              defaultEncoding: 'utf8',
+              awaitDrain: 0,
+              readingMore: false,
+              decoder: null,
+              encoding: null
+            };
+          }
+        };
+      }
+    </script>
+  </body>
+</html>

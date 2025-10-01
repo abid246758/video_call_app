@@ -1,0 +1,68 @@
+{
+    "name": "video-chat-app",
+    "version": "2.0.0",
+    "description": "Secure Video Chat Application with End-to-End Encryption",
+    "main": "backend/server.js",
+    "scripts": {
+        "start": "node backend/server.js",
+        "build": "cd frontend && npm install && npm run build && cd ..",
+        "postinstall": "npm run build",
+        "dev:backend": "cd backend && npm run dev",
+        "dev:frontend": "cd frontend && npm start",
+        "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+        "test": "cd backend && npm test && cd ../frontend && npm test",
+        "lint": "cd backend && npm run lint && cd ../frontend && npm run lint"
+    },
+    "keywords": [
+        "video-chat",
+        "webrtc",
+        "socket.io",
+        "encryption",
+        "secure",
+        "react",
+        "fullstack"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "compression": "^1.7.4",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.5",
+        "helmet": "^7.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "morgan": "^1.10.0",
+        "peer": "^1.0.2",
+        "socket.io": "^4.7.4",
+        "uuid": "^9.0.1",
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/icons-material": "^5.15.0",
+        "@mui/material": "^5.15.0",
+        "axios": "^1.6.2",
+        "crypto-js": "^4.2.0",
+        "peerjs": "^1.5.5",
+        "react": "^18.2.0",
+        "react-copy-to-clipboard": "^5.1.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.20.1",
+        "react-scripts": "5.0.1",
+        "react-toastify": "^9.1.3",
+        "simple-peer": "^9.11.1",
+        "socket.io-client": "^4.7.4",
+        "web-vitals": "^3.5.0"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2",
+        "eslint": "^8.55.0",
+        "jest": "^29.7.0",
+        "nodemon": "^3.0.2",
+        "supertest": "^6.3.3"
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "npm": ">=8.0.0"
+    }
+}
